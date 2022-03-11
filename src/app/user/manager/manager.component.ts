@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Account } from 'src/app/account/account.model';
 import { AccountService } from 'src/app/account/account.service';
+import { RequestService } from 'src/app/reimbursement/request.service';
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -21,7 +22,8 @@ export class ManagerComponent implements OnInit {
   }
   
   constructor(private authService: AuthService,
-              private accountService: AccountService) { }
+    private accountService: AccountService,
+    private requestService: RequestService) { }
 
   ngOnInit(): void {
     this.loadCurrentUser();

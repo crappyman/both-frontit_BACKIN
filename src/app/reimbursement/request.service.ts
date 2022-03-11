@@ -27,9 +27,12 @@ export class RequestService {
 
   // }
 
-  // reviewRequest(requestModel: any): Request {
-
-  // }
+  reviewRequest(requestModel: Request): Observable<Request> {
+    return this.http.put<Request>("http://localhost:4040/api/requests", JSON.stringify(requestModel));
+    // return this.http.put<Request>("http://localhost:4040/api/requests"+reqId+"/"+status);
+    //return this.http.put<Request>("http://localhost:4040/api/requests/",JSON.stringify([reqId, reqStatus]));
+    // return this.http.put<any>(`http://localhost:4040/api/requests/${reqId}/${reqStatus}`,JSON.stringify(Request));
+  }
 
   // deleteRequest(reqId: number): Request[] {
   

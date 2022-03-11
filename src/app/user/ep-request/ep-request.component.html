@@ -13,7 +13,8 @@
                         <form #myFormTemplate="ngForm" (ngSubmit)="addRequest()">
                             <div class="card-body">
                                 <div class="mb-3 mt-3">
-                                    <label for="userId" class="form-label">User Id:</label>
+                                    <label for="title" class="form-label">User Id:</label>
+                                    {{ currentEmployee.userID }}
                                     <input type="text"
                                            class="form-control" 
                                            id="userId"
@@ -87,7 +88,7 @@
                                 <td>{{ request.submitDate }}</td>
                                 <td>{{ request.approveDate }}</td>
                                 <td>{{ request.manager }}</td>
-                                
+                               
                             </tr>
                         </tbody>
                     </table>

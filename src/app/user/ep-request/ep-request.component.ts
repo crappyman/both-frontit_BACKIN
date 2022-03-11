@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RequestService } from 'src/app/reimbursement/request.service';
 import { Request } from 'src/app/reimbursement/request.model';
 import { Account } from 'src/app/account/account.model';
 import { AuthService } from '../auth.service';
+import { AccountService } from 'src/app/account/account.service';
 
 @Component({
   selector: 'app-ep-request',
@@ -11,7 +12,7 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./ep-request.component.css']
 })
 export class EpRequestComponent implements OnInit {
-
+  currentEmployee: any = null;
   allEpRequests: Request[] = [];
   toggleAdd: boolean = false;
 
@@ -37,10 +38,15 @@ export class EpRequestComponent implements OnInit {
   };
 
   constructor(private requestService: RequestService,
-              private router: Router,
-              private authService: AuthService) { }
+    private router: Router,
+    private authService: AuthService,
+    private activatedRoute: ActivatedRoute, 
+    private accountService: AccountService) { }
+
 
   ngOnInit(): void {
+    this.currentEmployee = this.authService.retrieveUser();
+    console.log(this.currentEmployee);
     this.loadAllRequests();
   }
 
@@ -53,12 +59,12 @@ export class EpRequestComponent implements OnInit {
   }
 
   loadAllRequests() {
-    let currentEmployee: any = this.authService.retrieveUser();
+    this.currentEmployee= this.authService.retrieveUser();
     this.requestService.viewAllRequest().subscribe((response) => {
       console.log(response);
 
       for(let i = 0; i < response.length; i++) {
-        if(response[i].userId == currentEmployee.userID) {
+        if(response[i].userId ==this.currentEmployee.userID) {
           this.allEpRequests.push(response[i]);
         }
       }
@@ -68,6 +74,7 @@ export class EpRequestComponent implements OnInit {
   addRequest() {
     //let currentUser: any = this.authService.retrieveUser();
     //console.log(currentUser);
+    this.newRequest.userId=this.currentEmployee.userID;
     this.requestService.addRequest(this.newRequest).subscribe((response) => {
       console.log(response);
       this.newRequest = {
@@ -84,4 +91,5 @@ export class EpRequestComponent implements OnInit {
       this.loadAllRequests();
     });
   }
+  
 }
