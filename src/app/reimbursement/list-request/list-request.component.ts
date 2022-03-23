@@ -13,7 +13,7 @@ import { ConnectableObservable } from 'rxjs';
 export class ListRequestComponent implements OnInit {
 
   allRequests: Request[] = [];
-
+  pendingRequests: Request[] = [];
   togglePReq: boolean = false;
   toggleRequests: boolean = false;
   
@@ -56,19 +56,25 @@ export class ListRequestComponent implements OnInit {
     //this has current manager info that logged in
     let currentManager: any = this.authService.retrieveUser();
     console.log(currentManager);
-    
+    this.allRequests = []
     //get all requests from the backend and stored in response
     this.requestService.viewAllRequest().subscribe((response) => {
-      console.log(response); // a list of all requests
+      console.log("Hello", response); // a list of all requests
       for(let i = 0; i < response.length; i++) {
         if(response[i].manager == currentManager.userID) {
-          console.log(this.allRequests[i]);
+          if(response[i].reqStatus == "1")
+            this.pendingRequests.push(response[i]);
           this.allRequests.push(response[i]);
         }  
       }
     });
   }
-
+  acceptRequest(reqId : number) {
+    this.requestService.acceptRequest(reqId).subscribe(  response => {
+      
+      this.loadAllRequests()
+    });
+  }
   // addRequest() {
   //   this.requestService.addRequest(this.newRequest).subscribe((response) => {
   //     console.log(response);

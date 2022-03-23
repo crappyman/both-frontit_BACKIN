@@ -11,17 +11,24 @@ export class RequestService {
   constructor(private http: HttpClient) { }
 
   viewAllRequest(): Observable<Request[]> {
-    return this.http.get<Request[]>("http://localhost:4040/api/all/requests");
+    return this.http.get<Request[]>("http://localhost:4444/api/request/allRequests");
   }
 
   addRequest(requestModel: Request): Observable<Request> {
-    return this.http.post<Request>("http://localhost:4040/api/requests", JSON.stringify(requestModel));
+    return this.http.post<Request>("http://localhost:4444/api/request/addRequest/",requestModel);
   }
 
   fetchARequest(reqId: any): Observable<Request> {
-    return this.http.get<Request>("http://localhost:4040/api/requests/"+reqId);
+    return this.http.get<any>("http://localhost:4444/api/request/fetchRequests/"+reqId);
   }
   
+  acceptRequest(reqId: any) {
+    return this.http.put<any>("http://localhost:4444/api/request/modifyRequestStatus/"+ reqId + "/" + 2, null);
+  }
+
+  denieRequest(reqId: any) {
+    return this.http.put<any>("http://localhost:4444/api/request/modifyRequestStatus/"+ reqId + "/" + 3, null);
+  }
   // viewPendingRequest(reqId: any): Request {
 
 
