@@ -69,11 +69,15 @@ export class ListRequestComponent implements OnInit {
       }
     });
   }
+  
   acceptRequest(reqId : number) {
     this.requestService.acceptRequest(reqId).subscribe(  response => {
       
       this.loadAllRequests()
     });
+  }
+  denieRequest(reqId:number){
+    this.requestService.denieRequest(reqId).subscribe(Response => { this.loadAllRequests()});
   }
   // addRequest() {
   //   this.requestService.addRequest(this.newRequest).subscribe((response) => {
